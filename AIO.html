@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MEO×AIO 対策のご提案</title>
+<style>
+/*
+VOICE: 落ち着いた提案書。事実は保ち、煽らない。
+IDEA: 地図とAIの回答画面。「AIが絞った候補に入る」を1枚の画面で見せる。
+PICTURE: ヒーローにスマホ型のAI回答カード＋地図ピン。事例は前後比較のバー。
+COLOUR and TYPE: グレー基調（墨・石・白）＋アクセント1色（ピンの青）。メイリオ。
+LAYOUT: スマホ優先の1カラム、600px以上で2〜4列。セクションリンクは横スクロール。
+*/
+:root{color-scheme:light dark;
+--bg:light-dark(#f1f1ef,#18191b);--panel:light-dark(#ffffff,#232427);--line:light-dark(#dcdcd8,#38393d);
+--ink:light-dark(#222326,#e9e9e6);--sub:light-dark(#5e6066,#a9abaf);--band:light-dark(#2c2e32,#0f1011);--bandink:#f1f1ef;
+--ac:light-dark(#1d6fa5,#74b6e3);--acbg:light-dark(#e6f0f7,#1c2a35);--soft:light-dark(#e7e7e4,#2d2e31)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 Meiryo,"メイリオ","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;overflow-x:clip}
+h1,h2,h3{line-height:1.3;text-wrap:balance;margin:0}
+h2{font-size:clamp(24px,5vw,34px)}h3{font-size:18px}
+p{margin:0}
+.wrap{max-width:1120px;margin:0 auto}
+.band{padding:clamp(48px,7vw,88px) max(5vw,18px)}
+.band.alt{background:var(--panel)}
+.band.dark{background:var(--band);color:var(--bandink)}
+.band.dark .sub{color:#b9bbbf}
+.lab{font-size:13px;color:var(--ac);font-weight:700;margin-bottom:10px;display:block}
+.dark .lab{color:#8cc6ec}
+.lead{color:var(--sub);margin-top:12px;max-width:44em}
+.sub{color:var(--sub)}
+.small{font-size:13px;color:var(--sub)}
+.grid{display:grid;gap:16px;margin-top:28px}
+@media(min-width:640px){.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:960px){.g4{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+.alt .card{background:var(--bg)}
+.dark .card{background:#3a3c41;border-color:#4a4c52}
+.note{margin-top:24px;padding:16px 18px;border-radius:12px;background:var(--acbg);font-size:15px}
+.dark .note{background:#3a3c41}
+/* nav */
+nav{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .scroll{display:flex;gap:4px;overflow-x:auto;padding:8px max(4vw,12px);scrollbar-width:none}
+nav a{flex:none;font-size:14px;color:var(--sub);text-decoration:none;padding:8px 12px;border-radius:999px;min-height:40px;display:flex;align-items:center}
+nav a:hover,nav a:focus-visible{background:var(--soft);color:var(--ink);outline:none}
+/* hero */
+.hero{background:var(--band);color:var(--bandink);padding:clamp(40px,7vw,80px) max(5vw,18px)}
+.hero .wrap{display:grid;gap:36px;align-items:center}
+@media(min-width:860px){.hero .wrap{grid-template-columns:1.1fr .9fr}}
+.hero h1{font-size:clamp(30px,6.4vw,50px);line-height:1.2}
+.hero .lead{color:#c4c6ca}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.chip{font-size:13px;border:1px solid #55585e;border-radius:999px;padding:5px 12px;color:#dcdde0}
+.cta{display:inline-flex;align-items:center;gap:8px;margin-top:26px;background:var(--ac);color:#fff;text-decoration:none;font-weight:700;padding:13px 22px;border-radius:10px;min-height:48px}
+.dark .cta,.hero .cta{background:#2f86c2}
+.cta:focus-visible{outline:3px solid #8cc6ec;outline-offset:2px}
+.phone{justify-self:center;width:min(330px,100%);background:#f4f4f2;color:#222;border-radius:30px;padding:16px;box-shadow:0 30px 60px -20px rgba(0,0,0,.55),inset 0 0 0 6px #45474c}
+.q{background:#e2e2df;border-radius:14px 14px 4px 14px;padding:10px 14px;font-size:14px;margin-left:30px}
+.ans{margin-top:12px;font-size:13px;color:#55575c}
+.shop{display:flex;gap:10px;align-items:center;background:#fff;border-radius:12px;padding:10px 12px;margin-top:8px;border:1px solid #e0e0dc}
+.shop b{font-size:14px;display:block}.shop span{font-size:12px;color:#6a6c70}
+.shop.on{border:2px solid #2f86c2}
+.pin{flex:none;width:28px;height:28px}
+.map{margin-top:12px;height:90px;border-radius:12px;background:#dfe3e0;position:relative;overflow:hidden}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+/* stats */
+.stat b{display:block;font-size:clamp(34px,8vw,46px);line-height:1.1;color:var(--ac);font-variant-numeric:tabular-nums}
+.dark .stat b{color:#8cc6ec}
+.stat p{margin-top:6px;font-weight:700}
+.stat .small{margin-top:8px}
+/* concept */
+.vs{display:grid;gap:16px;margin-top:28px}
+@media(min-width:720px){.vs{grid-template-columns:1fr auto 1fr;align-items:stretch}}
+.vs .plus{align-self:center;justify-self:center;font-size:28px;color:var(--sub)}
+.tag{display:inline-block;font-size:13px;font-weight:700;padding:3px 10px;border-radius:6px;background:var(--soft);margin-bottom:10px}
+.tag.ac{background:var(--ac);color:#fff}
+ul.dot{margin:12px 0 0;padding-left:1.2em}ul.dot li{margin:4px 0}
+.card.key{border:2px solid var(--ac)}
+/* flow */
+.flow{display:grid;gap:12px;margin-top:28px}
+@media(min-width:720px){.flow{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.flow .card h3{margin-bottom:6px}
+.base{margin-top:16px;border-radius:14px;padding:22px;background:var(--band);color:var(--bandink)}
+.base b{color:#8cc6ec}
+/* table */
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:15px;background:var(--panel)}
+th,td{padding:12px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:13px;color:var(--sub);font-weight:700;background:var(--soft)}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.up{color:var(--ac);font-weight:700}
+.tbl{margin-top:24px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+/* filters + cases */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:28px}
+.filters button{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:8px 16px;min-height:44px;cursor:pointer}
+.filters button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.filters button:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.case .area{font-size:13px;color:var(--sub)}
+.case h3{font-size:17px;margin-top:2px}
+.case .pct{font-size:34px;font-weight:700;color:var(--ac);line-height:1.2;margin-top:8px;font-variant-numeric:tabular-nums}
+.case .pct small{font-size:13px;color:var(--sub);font-weight:400;margin-left:6px}
+.bar{margin-top:10px;font-size:13px}
+.bar .row{display:grid;grid-template-columns:3.2em minmax(0,1fr) 4.2em;gap:8px;align-items:center;margin-top:5px}
+.bar .tr{height:10px;background:var(--soft);border-radius:5px;overflow:hidden}
+.bar .fill{height:100%;background:#9a9ca1;border-radius:5px}
+.bar .fill.af{background:var(--ac)}
+.bar .v{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.mets{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.mets span{font-size:12px;background:var(--soft);border-radius:6px;padding:3px 8px;white-space:nowrap}
+.caveat{display:grid;gap:12px;margin-top:24px}
+@media(min-width:720px){.caveat{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.caveat .card{padding:16px}
+.caveat h3{font-size:15px;margin-bottom:4px}
+.caveat p{font-size:14px;color:var(--sub)}
+/* tasks */
+.cats{display:grid;gap:12px;margin-top:28px}
+@media(min-width:720px){.cats{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.cat .num{font-size:30px;font-weight:700;color:var(--ac)}
+.cat .num small{font-size:14px;color:var(--sub);font-weight:400}
+.sum{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.sum div{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 16px;font-size:14px}
+.sum b{font-size:20px;margin-left:6px}
+details{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-top:10px}
+summary{cursor:pointer;padding:16px 18px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:12px;min-height:52px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"＋";color:var(--sub)}
+details[open] summary::after{content:"－"}
+summary:focus-visible{outline:3px solid var(--ac);border-radius:12px}
+details .scroll{padding:0 12px 14px}
+.kb{display:inline-block;font-size:12px;padding:2px 8px;border-radius:5px;background:var(--soft);white-space:nowrap}
+.kb.op{background:var(--acbg);color:var(--ac)}
+/* timeline */
+.tl{display:grid;gap:14px;margin-top:28px}
+@media(min-width:720px){.tl{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.tl .when{font-size:13px;color:var(--ac);font-weight:700}
+/* pricing */
+.plans{display:grid;gap:14px;margin-top:28px}
+@media(min-width:640px){.plans{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:1000px){.plans{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.plan .price{font-size:28px;font-weight:700;margin-top:6px;white-space:nowrap}
+.plan .price small{font-size:14px;font-weight:400;color:var(--sub)}
+.plan ul{list-style:none;padding:0;margin:12px 0 0;font-size:14px}
+.plan li{padding:5px 0;border-top:1px dashed var(--line);display:flex;justify-content:space-between;gap:8px}
+.plan li.off{color:var(--sub)}
+.plan .you{margin-top:12px;font-size:13px;background:var(--soft);border-radius:8px;padding:8px 10px}
+.plan.key{border:2px solid var(--ac)}
+.items{display:grid;gap:12px;margin-top:20px}
+@media(min-width:720px){.items{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.item{display:grid;gap:8px}
+.item .p{font-weight:700;font-size:18px;border-top:1px dashed var(--line);padding-top:8px}
+.item .p small{font-size:13px;color:var(--sub);font-weight:400;margin-left:8px}
+footer{background:var(--band);color:#c4c6ca;padding:40px max(5vw,18px);font-size:14px}
+footer b{color:#fff}
+.fade{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s ease}
+.fade.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.fade{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+@media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:7em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:6.5em;margin-inline-start:-7em;white-space:normal;color:var(--sub);font-size:12px}.stack td:empty{display:none}}
+</style>
+<script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <span class="lab" style="color:#8cc6ec">MEO × AIO 対策のご提案</span>
+      <h1>Googleマップで選ばれ、<br>AIにも紹介されるお店へ</h1>
+      <p class="lead">Googleマップ対策（MEO）とAI検索への対策（AIO）を、4つのカテゴリ・26のタスクに整理しました。弊社が支援してきた店舗の実際の数字とあわせてご案内します。</p>
+      <div class="chips"><span class="chip">MEO 約13年の実績</span><span class="chip">384店舗の前後比較</span><span class="chip">月額58,000円〜</span></div>
+      <a class="cta" href="#price">料金プランを見る</a>
+    </div>
+    <div class="phone" aria-label="AIに質問したときの回答イメージ">
+      <div class="q">近くでおすすめのお店を教えて</div>
+      <p class="ans">口コミの評価が高く、情報がそろっているお店を3つご紹介します。</p>
+      <div class="shop on"><svg class="pin" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z" fill="#2f86c2"/><circle cx="12" cy="9" r="2.6" fill="#fff"/></svg><div><b>あなたのお店</b><span>★4.6　営業時間・メニュー・写真あり</span></div></div>
+      <div class="shop"><svg class="pin" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z" fill="#9a9ca1"/><circle cx="12" cy="9" r="2.6" fill="#fff"/></svg><div><b>候補のお店 B</b><span>★4.3</span></div></div>
+      <div class="shop"><svg class="pin" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z" fill="#9a9ca1"/><circle cx="12" cy="9" r="2.6" fill="#fff"/></svg><div><b>候補のお店 C</b><span>★4.2</span></div></div>
+      <div class="map"><svg viewBox="0 0 300 90" preserveAspectRatio="none"><path d="M0 60 Q80 40 150 55 T300 45" stroke="#fff" stroke-width="9" fill="none"/><path d="M110 0 L130 90" stroke="#fff" stroke-width="6"/><path d="M220 0 L205 90" stroke="#f1f1ef" stroke-width="5"/><rect x="20" y="8" width="60" height="26" rx="4" fill="#cfd5d1"/><rect x="240" y="60" width="50" height="24" rx="4" fill="#cfd5d1"/><circle cx="168" cy="40" r="9" fill="#2f86c2"/><circle cx="168" cy="40" r="3.5" fill="#fff"/></svg></div>
+    </div>
+  </div>
+</header>
+
+<nav aria-label="目次"><div class="scroll">
+  <a href="#about">会社紹介</a><a href="#concept">考え方</a><a href="#background">AI検索の広がり</a><a href="#why">MEOとAIO</a><a href="#results">成果事例</a><a href="#tasks">対策内容</a><a href="#next">今後の変化</a><a href="#roadmap">進め方</a><a href="#price">料金</a><a href="#scope">対応範囲</a><a href="#kickoff">ご契約後の確認事項</a>
+</div></nav>
+
+<section class="band alt" id="about"><div class="wrap fade">
+  <span class="lab">会社紹介</span>
+  <h2>株式会社H2technologyについて</h2>
+  <p class="lead">MEO・AIOのコンサルティングと、専用ツールの提供を行っています。</p>
+  <div class="grid g3">
+    <div class="card stat"><b>約13年</b><p>MEOに取り組んできた年数</p><p class="small">医療・飲食・美容・フィットネス・小売など、多くの業種の店舗・施設を支援してきました。</p></div>
+    <div class="card stat"><b>AIO</b><p>早い段階から対応</p><p class="small">AI検索への対策にも、業界の中では早い時期から取り組んでいます。</p></div>
+    <div class="card stat"><b>Mappy</b><p>専用ツールを提供</p><p class="small">海外企業との日本独占パートナーシップにより、MEO・AIOを一元管理できるツールを提供しています。</p></div>
+  </div>
+</div></section>
+
+<section class="band" id="concept"><div class="wrap fade">
+  <span class="lab">考え方</span>
+  <h2>MEOは自分でできる時代へ。任せるならAIO</h2>
+  <p class="lead">Googleマップ対策は、Googleの管理機能やツールが整い、自社で進めやすくなっています。専門家の支援が生きるのは、AI検索への対策です。</p>
+  <div class="vs">
+    <div class="card"><span class="tag">自分でできる</span><h3>MEO（Googleマップ対策）</h3>
+      <ul class="dot"><li>Googleビジネスプロフィールの情報更新・投稿・写真の追加</li><li>口コミへの返信</li><li>順位や表示回数の確認</li></ul>
+      <p class="small" style="margin-top:12px">時間をかければ、自社で進められる領域です。</p></div>
+    <div class="plus">＋</div>
+    <div class="card key"><span class="tag ac">任せるなら、ここ</span><h3>AIO（AI検索対策）</h3>
+      <ul class="dot"><li>外部の掲載媒体の情報をそろえる（サイテーション対策）</li><li>AIが読み取りやすい情報の設計</li><li>AIでの紹介状況の計測と改善</li></ul>
+      <p class="small" style="margin-top:12px">媒体ごとの個別対応や専門知識が必要で、仕様の変化も速い領域です。</p></div>
+  </div>
+  <p class="note">この資料では、必要な施策の全体像と、自社で行う部分・任せる部分の選び方をご案内します。<br><span class="small">Googleビジネスプロフィール（GBP）：Googleマップや検索結果に表示される、お店の情報ページのことです。</span></p>
+</div></section>
+
+<section class="band dark" id="background"><div class="wrap fade">
+  <span class="lab">AI検索の広がり</span>
+  <h2>AIに聞いてお店を決める人が増えています</h2>
+  <p class="lead sub">お店やサービスを探す方法が、検索やマップに加えて、AIに質問する形へ広がっています。</p>
+  <div class="grid g3">
+    <div class="card stat"><b>52.3%</b><p>生成AIで検索する人（15〜69歳）</p><p class="small" style="color:#b9bbbf">2025年5月の21.3%から約1年で2.5倍<br>出典：サイバーエージェント GEOラボ「生成AIのユーザー利用実態調査」（2026年8月・9,278名）</p></div>
+    <div class="card stat"><b>58.7%</b><p>AIのおすすめをきっかけに購入・利用した経験がある人</p><p class="small" style="color:#b9bbbf">AIの回答が実際の行動につながっています<br>出典：サイバーエージェント GEOラボ（2026年8月）</p></div>
+    <div class="card stat"><b>80.5%</b><p>国内の検索結果でAIによる概要が表示された割合</p><p class="small" style="color:#b9bbbf">2025年10月の31.7%から拡大<br>出典：グラッドキューブ調査（自社運営3サイトの上位100キーワード・2026年10月）</p></div>
+  </div>
+  <p class="note">AIは、複数の情報源で同じ内容が確認できる店舗・企業を紹介しやすい傾向があります。GBP、外部の掲載媒体、口コミ、Webサイトの情報をそろえ、最新の状態に保つことが対策の中心です。</p>
+</div></section>
+
+<section class="band" id="why"><div class="wrap fade">
+  <span class="lab">MEOとAIOの役割</span>
+  <h2>MEOは集客の土台。AIOは「AIの候補に入る」ための対策</h2>
+  <p class="lead">マップの順位、口コミの評価、AIが参照する情報。いずれもGoogleビジネスプロフィールが元になっています。</p>
+  <div class="grid g3">
+    <div class="card"><h3>見つけてもらえる</h3><p class="sub" style="margin-top:6px">「地域名＋業種」で探す方に表示されます。</p><p class="small" style="margin-top:10px">新しいお店を探すとき、約64%が「毎回」または「ほとんど」Googleマップを利用<br>出典：FINEXT「Googleマップの利用実態調査」（2026年2月・317名）</p></div>
+    <div class="card"><h3>選ぶ理由になる</h3><p class="sub" style="margin-top:6px">評価と口コミの内容が、来店を決める材料になります。</p><p class="small" style="margin-top:10px">口コミを見る場所はGoogleマップが76.6%で最多<br>出典：FINEXT「口コミ・レビューの利用実態調査」（2026年3月・329名）</p></div>
+    <div class="card"><h3>AIの回答の元になる</h3><p class="sub" style="margin-top:6px">AIはGBPや口コミの情報を参照して、お店を紹介します。</p><p class="small" style="margin-top:10px">GBPの情報が整っているほど、AIに正しく紹介されやすくなります。</p></div>
+  </div>
+  <div class="grid g2" style="margin-top:36px">
+    <div class="card"><span class="tag">これまで</span><h3>たくさんの中から選んでもらう</h3><p class="sub" style="margin-top:6px">検索結果やマップに並んだお店を、お客様が見比べて選びます。</p></div>
+    <div class="card key"><span class="tag ac">これから</span><h3>AIが選んだお店の中から選ばれる</h3><p class="sub" style="margin-top:6px">AIが数店舗に絞って紹介し、お客様はその中から選びます。「おすすめの◯◯」への回答に名前が挙がり、強みまで紹介され、リンクからWebサイトやマップへつながります。</p></div>
+  </div>
+  <div class="flow">
+    <div class="card"><h3>Web広告</h3><p class="small">検索や配信面で、すぐに知ってもらう入口。短期の集客・新しい層への到達に。</p></div>
+    <div class="card"><h3>SNS</h3><p class="small">フォロワーや発見タブから知ってもらう入口。ブランドづくり・ファンづくりに。</p></div>
+    <div class="card"><h3>ポータル・その他</h3><p class="small">比較サイトや紹介から知ってもらう入口。比較検討している層への到達に。</p></div>
+  </div>
+  <div class="base"><b>土台：MEO × AIO</b><p style="margin-top:6px">どの入口から知った方も、最後に確認するのはGoogleマップの情報・口コミ・AIの回答です。広告やSNSは、土台が整っているほど効果を発揮します。まずは土台づくりから始めることをおすすめします。</p></div>
+</div></section>
+
+<section class="band alt" id="results"><div class="wrap fade">
+  <span class="lab">成果事例</span>
+  <h2>対策開始の前後で、来店につながる行動はどう変わったか</h2>
+  <p class="lead">弊社が対策を行っている店舗のうち、開始前から実績があった384店舗を対象に、Googleマップからの「電話・経路案内・Webサイト訪問」の合計（ユーザー行動）を比べました。</p>
+  <div class="grid g3">
+    <div class="card"><h3>比べた期間</h3><p class="small" style="margin-top:6px">対策開始前2ヶ月の月平均と、開始2〜3ヶ月後の月平均。</p></div>
+    <div class="card"><h3>見た数字</h3><p class="small" style="margin-top:6px">電話・経路案内・Webサイト訪問の合計。表示回数はAI検索の普及などで年々減る傾向のため、評価には使っていません。</p></div>
+    <div class="card"><h3>口コミ</h3><p class="small" style="margin-top:6px">開始前3ヶ月と開始後3ヶ月の新規口コミ件数を、開始前から口コミがあった97店舗で比較。</p></div>
+  </div>
+
+  <h3 style="margin-top:44px">業種別の傾向</h3>
+  <p class="sub" style="margin-top:6px">飲食・結婚式場・施設系で、来店につながる行動が伸びています。</p>
+  <div class="tbl scroll"><table class="stack">
+    <thead><tr><th>業種</th><th style="text-align:right">店舗数</th><th style="text-align:right">ユーザー行動</th><th style="text-align:right">増えた店舗の割合</th></tr></thead>
+    <tbody id="ind"></tbody>
+  </table></div>
+  <p class="small" style="margin-top:10px">ユーザー行動は各業種の中央値（真ん中の店舗の値）です。美容・施設は店舗数が少ないため参考値です。店舗数が少ない業種は表から省略しています。</p>
+
+  <h3 style="margin-top:44px">業種別の事例</h3>
+  <div class="filters" id="filters" role="group" aria-label="業種で絞り込む"></div>
+  <div class="grid g3" id="cases"></div>
+  <p class="small" style="margin-top:12px">対策開始前2ヶ月の月平均 → 開始2〜3ヶ月後の月平均。出典：Mappyインサイト（2024年11月〜2026年10月）、弊社店舗管理データ。掲載店舗は業態とエリアのみで表記しています。</p>
+
+  <h3 style="margin-top:44px">口コミが増えた事例</h3>
+  <p class="sub" style="margin-top:6px">飲食51店舗の合計では、開始前3ヶ月 1,748件 → 開始後3ヶ月 2,005件（＋15%）でした。</p>
+  <div class="grid g4" id="reviews"></div>
+  <p class="small" style="margin-top:12px">対策開始前3ヶ月 → 開始後3ヶ月の新規口コミ件数（Mappy口コミデータ）。開始前に口コミがない店舗は除いています。</p>
+
+  <h3 style="margin-top:44px">数字を見るときの注意</h3>
+  <div class="caveat">
+    <div class="card"><h3>季節の影響は補正していません</h3><p>開始前と開始後で月が違うため、繁忙期・閑散期の差も含みます。</p></div>
+    <div class="card"><h3>Webサイト訪問が0から増えた店舗</h3><p>GBPにWebサイトを登録したことで計測が始まった可能性があり、伸び率はその分を割り引いて見る必要があります。</p></div>
+    <div class="card"><h3>表示回数ではなく行動数で評価</h3><p>来店に直結する電話・経路案内・Webサイト訪問で効果を見ています。</p></div>
+    <div class="card"><h3>業種の一部は推定です</h3><p>管理データで業種が分からない店舗（約2割）は、店舗名から業種を判定しています。</p></div>
+  </div>
+</div></section>
+
+<section class="band" id="tasks"><div class="wrap fade">
+  <span class="lab">対策内容</span>
+  <h2>施策の全体像：4カテゴリ・26タスク</h2>
+  <p class="lead">最初に一度設定する「初期タスク」と、毎月・その都度続ける「運用タスク」があります。</p>
+  <div class="cats" id="cats"></div>
+  <div class="sum"><div>タスク合計<b>26件</b></div><div>初期タスク<b>14件</b></div><div>運用タスク<b>12件</b></div></div>
+  <div id="tasklist" style="margin-top:20px"></div>
+  <p class="small" style="margin-top:12px">サイテーション：店舗の名称・住所・電話番号などが、ネット上のさまざまな媒体に載っている状態のこと。表記がそろっているほど、AIや検索エンジンに同じお店だと認識されやすくなります。</p>
+</div></section>
+
+<section class="band alt" id="next"><div class="wrap fade">
+  <span class="lab">今後の変化</span>
+  <h2>MEOの作業は、今後さらに自社で進めやすくなります</h2>
+  <p class="lead">作業を支援する機能を、Googleがアメリカなどで順次テストしています。</p>
+  <div class="grid g3">
+    <div class="card"><span class="small">2026.10.22　米英でベータ提供</span><h3 style="margin-top:6px">Google Business Home</h3><p class="small" style="margin-top:6px">投稿の作成、複数店舗の管理、AI（Gemini）による施策の提案を、ひとつの画面で行える新しい管理画面です。</p></div>
+    <div class="card"><span class="small">2026.10.23　テスト中</span><h3 style="margin-top:6px">新しいパフォーマンスレポート</h3><p class="small" style="margin-top:6px">口コミ、検索トレンド、利用者の分析と、おすすめの施策をGoogleが自動で表示します。</p></div>
+    <div class="card"><span class="small">2026.10.29　提供を拡大中</span><h3 style="margin-top:6px">AIによる自動応答メッセージ</h3><p class="small" style="margin-top:6px">定型的なお問い合わせにAIが回答します。回答の質は、プロフィール情報の充実度で決まります。</p></div>
+  </div>
+  <p class="note">日本での提供が始まれば、投稿・集計・定型の対応はお客様ご自身でも進めやすくなります。必要になるのは、作業にあてる時間と担当者です。弊社のプランも、ツールを使ってお客様ご自身で運用いただく形を基本に、必要な部分だけをお手伝いする構成にしています。<br><span class="small">出典：Search Engine Roundtable（2026年10月〜11月の記事）。提供地域・時期は2026年11月時点の情報で、日本での提供時期は未発表です。</span></p>
+  <h3 style="margin-top:40px">自社で運用する場合に必要なリソース</h3>
+  <div class="grid g2">
+    <div class="card"><h3>担当者と作業時間</h3><p class="small" style="margin-top:6px">投稿、写真の追加、情報更新、順位やAI回答の確認など、12の運用タスクを続ける担当者が必要です。担当者が替わっても続けられる引き継ぎの仕組みも必要になります。</p></div>
+    <div class="card"><h3>専門知識のキャッチアップ</h3><p class="small" style="margin-top:6px">カテゴリや説明文の設計、Googleの口コミ規約などの知識が必要です。GoogleやAIの仕様は変わるため、情報を追い続けることも作業に含まれます。</p></div>
+    <div class="card"><h3>媒体ごとの個別対応</h3><p class="small" style="margin-top:6px">掲載情報の調査や修正依頼は、媒体ごとに窓口や手順が異なります。一度そろえた情報も時間とともに変わるため、定期的な再確認が必要です。</p></div>
+    <div class="card"><h3>計測と改善のサイクル</h3><p class="small" style="margin-top:6px">順位、表示回数、AIでの紹介状況を同じ条件で記録し続け、変化の理由を読み取って次の施策を決める流れが必要です。</p></div>
+  </div>
+</div></section>
+
+<section class="band" id="roadmap"><div class="wrap fade">
+  <span class="lab">進め方</span>
+  <h2>はじめの3か月で土台を整え、その後は運用と計測へ</h2>
+  <div class="tl">
+    <div class="card"><span class="when">1か月目</span><h3 style="margin-top:4px">セットアップ</h3><ul class="dot small"><li>ヒアリング（重点サービス・ターゲット）</li><li>AI回答・掲載状況の現状診断</li><li>表記ルールの決定</li><li>GBPの初期設定・順位計測の開始</li></ul></div>
+    <div class="card"><span class="when">2〜3か月目</span><h3 style="margin-top:4px">情報の展開</h3><ul class="dot small"><li>主要媒体への一括配信・表記統一</li><li>古い情報の修正依頼</li><li>口コミ導線の設置</li><li>Webサイトの表記・地図埋め込み・FAQの確認</li></ul></div>
+    <div class="card"><span class="when">4か月目以降</span><h3 style="margin-top:4px">運用・計測</h3><ul class="dot small"><li>GBPの定期更新（投稿・写真）</li><li>AI回答のモニタリングと改善</li><li>繁忙期・イベントに合わせた発信</li><li>月次レポートでの効果報告</li></ul></div>
+  </div>
+</div></section>
+
+<section class="band alt" id="price"><div class="wrap fade">
+  <span class="lab">料金</span>
+  <h2>フルプラン 月額58,000円〜。自社でできるものを外して下げられます</h2>
+  <p class="lead">すべてお任せいただく構成から、外したサービスの分だけ月額が下がります。外したサービスの作業は、お客様ご自身で行っていただく形になります。</p>
+  <div class="plans" id="plans"></div>
+  <h3 style="margin-top:40px">各サービスの内容</h3>
+  <div class="items">
+    <div class="card"><div class="item"><div><h3>基本ツール（Mappy 一元管理）</h3><p class="small" style="margin-top:4px">GBP管理・口コミ獲得支援（アンケート導線とSMSでのご案内）・100媒体への情報連携・サイト情報との整合・レポート自動化を、ひとつの画面で。</p></div><p class="p">月額10,000円<small>必須</small></p></div></div>
+    <div class="card"><div class="item"><div><h3>コンサル</h3><p class="small" style="margin-top:4px">毎月の詳細分析、競合・商圏比較、AI検索の露出評価、優先施策の提案、口コミ獲得導線の改善、月1回のオンライン定例。</p></div><p class="p">月額30,000円<small>外せます</small></p></div></div>
+    <div class="card"><div class="item"><div><h3>記事制作</h3><p class="small" style="margin-top:4px">1記事400文字以内の、簡潔なSEO・発信用コンテンツを毎月4本制作します。</p></div><p class="p">月額10,000円<small>外せます</small></p></div></div>
+    <div class="card"><div class="item"><div><h3>AI対応ホームページの制作・保守</h3><p class="small" style="margin-top:4px">AI対応のホームページを制作し、公開後の保守・管理まで対応します。</p></div><p class="p">月額8,000円<small>＋初期制作費50,000円</small></p></div></div>
+  </div>
+  <div class="card key" style="margin-top:20px">
+    <h3>ツールのみのご契約には、初期設定（初回50,000円）をおすすめしています</h3>
+    <p class="small" style="margin-top:6px">Mappyは、情報が整った状態から使い始めると効果が出やすくなります。弊社が1〜2か月で17項目の設定を整え、お客様は情報がそろった状態から日々の運用を始められます。フルプランには含まれています。</p>
+    <div class="grid g3" style="margin-top:14px;gap:10px">
+      <div class="small"><b>準備・診断（4）</b><br>権限付与／現状診断／対策キーワード選定／開始時点の数値記録</div>
+      <div class="small"><b>GBP基本情報（6）</b><br>名称・カテゴリ／住所・ピン／電話・営業時間／URL・属性・説明</div>
+      <div class="small"><b>見せ方の整備（3）</b><br>メニュー・商品／写真20〜30枚／初月のGBP投稿4本</div>
+      <div class="small"><b>信頼・外部情報（2）</b><br>既存口コミへの返信／100媒体への連携</div>
+      <div class="small"><b>Web連携（1）</b><br>表記・Googleマップ埋め込み・FAQの確認</div>
+      <div class="small"><b>計測・報告（1）</b><br>初月完了時のレポート</div>
+    </div>
+  </div>
+  <p class="small" style="margin-top:14px">※ 初期設定は単店舗・1〜2か月での設定を想定しています。素材はご提供いただいたものを使用し、サイトの改修と追加の撮影は含みません。<br>※ 表示金額の税区分、SMS送信の実費などは別途ご案内します。多店舗でのご利用は別途お見積りします。<br>※ 口コミの促進はアンケートとSMSを活用します。高評価の方だけを誘導する設計や、謝礼と引き換えの依頼は行いません。</p>
+</div></section>
+
+<section class="band" id="scope"><div class="wrap fade">
+  <span class="lab">対応範囲</span>
+  <h2>サービスごとの対応範囲</h2>
+  <p class="lead">青字は弊社が行う作業、黒字はお客様ご自身で行っていただく作業です。</p>
+  <div class="tbl scroll"><table class="stack">
+    <thead><tr><th>項目</th><th>初期設定</th><th>基本ツール（月次）</th><th>追加サービス</th></tr></thead>
+    <tbody id="scopeb"></tbody>
+  </table></div>
+</div></section>
+
+<section class="band dark" id="kickoff"><div class="wrap fade">
+  <span class="lab">ご契約後の確認事項</span>
+  <h2>ご契約後に伺いたいこと</h2>
+  <p class="lead sub">ご契約後のお打ち合わせで次の6点を伺い、施策の優先順位と計測キーワード（最大8つ）を決めます。事前にご準備いただけると、スムーズに対策を始められます。</p>
+  <div class="grid g3">
+    <div class="card"><h3>重点サービス・商品</h3><p class="small" style="margin-top:6px;color:#c4c6ca">特にお客様を増やしたいサービス、商品、店舗</p></div>
+    <div class="card"><h3>ターゲット</h3><p class="small" style="margin-top:6px;color:#c4c6ca">来ていただきたいお客様の層（年代、地域、利用目的など）</p></div>
+    <div class="card"><h3>目標とする成果</h3><p class="small" style="margin-top:6px;color:#c4c6ca">予約数、お問い合わせ数、来店数、Webサイト訪問数など</p></div>
+    <div class="card"><h3>GBPの管理状況</h3><p class="small" style="margin-top:6px;color:#c4c6ca">現在どなたが管理されているか、オーナー権限の所在</p></div>
+    <div class="card"><h3>掲載媒体</h3><p class="small" style="margin-top:6px;color:#c4c6ca">現在掲載しているポータルサイト・情報サイトの一覧</p></div>
+    <div class="card"><h3>ご提供いただける素材</h3><p class="small" style="margin-top:6px;color:#c4c6ca">写真、最新の数字や実績</p></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <b>株式会社H2technology　MEO・AIO事業部</b><br>
+  お問い合わせ：r.nanbara@h2t.co.jp
+</div></footer>
+
+<script>
+{
+const $=s=>document.querySelector(s);
+const ind=[["飲食",152,"+12%","64%",1],["結婚式場・その他",26,"+24%","77%",1],["施設（ジム・ホテル等）",7,"+19%","71%",1],["美容",7,"+13%","71%",1]];
+$('#ind').innerHTML=ind.map(r=>`<tr><td>${r[0]}</td><td class="n">${r[1]}</td><td class="n${r[4]?' up':''}">${r[2]}</td><td class="n">${r[3]}</td></tr>`).join('');
+
+const cases=[
+["飲食","兵庫県姫路市（駅ビル内）","ラーメン店",607,68,477,["経路案内 68→267","電話 0→22"]],
+["飲食","東京都新宿区","しゃぶしゃぶ食べ放題店",342,100,442,["電話 8→34","経路案内 92→206"]],
+["飲食","東京都港区","寿司店",299,148,590,["経路案内 63→278","電話 18→49"]],
+["飲食","大阪府太子町","釜飯・定食店",213,293,918,["経路案内 149→410","Web訪問 134→472"]],
+["医療・美容","滋賀県高島市","心療内科・精神科クリニック",105,356,728,["Web訪問 145→457","電話 100→132"]],
+["医療・美容","広島県広島市","酵素浴サロン",47,198,292,["経路案内 51→114","Web訪問 134→162"]],
+["医療・美容","千葉県市川市","ヘアカット専門美容室",22,178,218,["経路案内 52→74","Web訪問 112→128"]],
+["施設・スクール","東京都江戸川区","スポーツクラブ",79,690,1236,["Web訪問 401→808","電話 154→208"]],
+["施設・スクール","千葉県館山市","宿泊施設",92,92,178,["経路案内 48→88","Web訪問 44→83"]],
+["施設・スクール","山口県防府市","ホテル",23,818,1006,["経路案内 478→619","Web訪問 222→282"]],
+["施設・スクール","埼玉県蓮田市","学習塾",70,52,89,["電話 6→14","Web訪問 18→35"]],
+["婚礼・介護","秋田県秋田市","結婚式場",88,224,421,["経路案内 148→314","Web訪問 44→70"]],
+["婚礼・介護","広島県広島市","結婚式場",63,697,1138,["経路案内 520→878","電話 55→94"]],
+["婚礼・介護","長野県長野市","婚礼施設",47,110,162,["電話 19→43","経路案内 77→94"]],
+["婚礼・介護","千葉県千葉市","住宅型有料老人ホーム",191,56,163,["電話 0→14","経路案内 56→108"]],
+["小売","兵庫県猪名川町","ガソリンスタンド",45,130,189,["電話 18→34","経路案内 98→134"]],
+["小売","東京都町田市","補聴器専門店",36,66,90,["電話 4→12","経路案内 45→55"]],
+["小売","宮崎県宮崎市（百貨店内）","アロマ・雑貨店",50,54,82,["経路案内 40→60","電話 2→6"]]];
+const fmt=n=>n.toLocaleString('ja-JP');
+const cats=["すべて",...new Set(cases.map(c=>c[0]))];
+let cur="飲食";
+const draw=()=>{
+  $('#filters').innerHTML=cats.map(c=>`<button type="button" data-c="${c}" aria-pressed="${c===cur}">${c}</button>`).join('');
+  $('#cases').innerHTML=cases.filter(c=>cur==="すべて"||c[0]===cur).map(c=>{
+    const [g,a,n,p,b4,af,m]=c;
+    return `<div class="card case"><p class="area">${a}</p><h3>${n}</h3>
+    <p class="pct">+${p}%<small>ユーザー行動</small></p>
+    <div class="bar"><div class="row"><span>開始前</span><div class="tr"><div class="fill" style="width:${b4/af*100}%"></div></div><span class="v">月${fmt(b4)}回</span></div>
+    <div class="row"><span>開始後</span><div class="tr"><div class="fill af" style="width:100%"></div></div><span class="v">月${fmt(af)}回</span></div></div>
+    <div class="mets">${m.map(x=>`<span>${x}</span>`).join('')}</div></div>`}).join('');
+};
+draw();
+$('#filters').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;cur=b.dataset.c;draw();$('#filters [data-c="'+cur+'"]')?.focus()});
+
+const rv=[["東京都新宿区","餃子専門店",543,785],["兵庫県神戸市（駅ナカ）","立ち食いそば店",8,39],["千葉県八千代市","豚骨ラーメン店",2,31],["愛知県安城市（商業施設内）","買取専門店",11,39]];
+$('#reviews').innerHTML=rv.map(r=>`<div class="card case"><p class="area">${r[0]}</p><h3>${r[1]}</h3><p class="pct">+${r[3]-r[2]}件<small>新規口コミ</small></p><p class="small">3ヶ月の新規口コミ ${fmt(r[2])}件 → ${fmt(r[3])}件</p></div>`).join('');
+
+const T=[
+["GBP最適化","Googleマップで見つけてもらう土台づくり",[
+["管理権限（オーナー）の確認と更新体制づくり","誰がオーナー権限を持っているかを確認し、いつでも更新できる体制を整えます。",0],
+["カテゴリの見直し","メインカテゴリと追加カテゴリを、事業の実態に合わせて設定します。",0],
+["説明文の最適化","AIに伝えたい強みを1文目に置き、独自性・実績・資格・数字を盛り込みます。",0],
+["住所・電話番号・Webサイト表記の統一","住所・郵便番号・電話番号・URLの表記を、公式サイトと完全に一致させます。",0],
+["属性・サービス項目の登録","メニュー、サービス名、予約方法、設備、支払い方法などを登録します。",0],
+["写真の追加","外観・内観・スタッフ・商品やサービスの様子を掲載します（ご提供写真を使用）。",0],
+["Q&A（質問と回答）の掲載","お客様からよく聞かれる質問と、その答えを掲載します。",0],
+["投稿機能での定期発信","キャンペーン、新メニュー・新サービス、イベント、お知らせを定期的に発信します。",1],
+["写真の定期追加","季節や新しい取り組みに合わせて、写真を追加し続けます（ご提供写真を使用）。",1],
+["基本情報・営業時間・特別営業時間の更新","祝日、年末年始、臨時休業などを、その都度反映します。",1],
+["MEO順位計測（最大8キーワード）","「地域名＋業種」「地域名＋サービス名」などを、ヒアリングのうえ設定して計測します。",1],
+["インサイト分析と月次レポート","表示回数・経路検索・電話・Webクリックの推移を分析し、毎月まとめます。",1]]],
+["サイテーション対策","どこを見ても同じ、正しい情報に",[
+["掲載情報の一斉調査","ネット上の名称・住所・電話番号・URLなどを調べ、表記ゆれと古い情報を一覧にします。",0],
+["表記ルールの作成","正式名称、略称、住所、郵便番号、電話番号、強みの言い回しを1つに決めます。",0],
+["主要媒体への情報配信と表記の統一","地図アプリや地域情報サイトなどの主要媒体へ、決めた表記で情報を配信します。",0],
+["名前の似た店舗・施設との書き分け","AIや検索エンジンに混同されないよう、違いが伝わる書き方に整えます。",0],
+["古い情報・誤った情報の修正依頼","旧名称・旧住所・旧URL、古い料金や営業時間などを、媒体ごとに修正依頼します。",1],
+["定期的な再チェック","そろえた情報が崩れていないかを、定期的に確認します。",1]]],
+["口コミ施策","選ばれる理由と信頼をつくる",[
+["口コミを書いていただく導線づくり","QRコード付きカード、掲示物、依頼文面のひな形を用意します。",0],
+["依頼のタイミング設計","ご利用直後、お会計時、イベント後、再来店時など、お願いしやすい場面を決めます。",0],
+["良かった点が具体的に書かれやすい声かけ","接客、サービスの内容、雰囲気など、具体的な感想につながる声かけを続けます。",1],
+["Googleの規約に沿った運用","謝礼と引き換えの依頼などは行わず、規約の範囲で運用を続けます。",1]]],
+["AIモニタリング","AIでの紹介状況を測って改善",[
+["想定質問の一覧化","お客様が実際にAIへ聞きそうな質問を洗い出し、一覧にします。",0],
+["主要AIでの紹介状況の定期確認","ChatGPT、Gemini、GoogleのAIによる概要／AIモード、Perplexityでの紹介状況を確認します。",1],
+["未紹介・誤りの洗い出しと施策への反映","紹介されていない質問や誤った紹介内容を見つけ、次の施策に反映します。",1],
+["数値の推移のレポート化","GBPの表示回数・経路検索・Webサイトクリック数の推移をまとめます。",1]]]];
+$('#cats').innerHTML=T.map(c=>{const a=c[2].filter(t=>!t[2]).length;return `<div class="card cat"><h3>${c[0]}</h3><p class="small">${c[1]}</p><p class="num">${c[2].length}<small> タスク</small></p><p class="small">初期 ${a} ／ 運用 ${c[2].length-a}</p></div>`}).join('');
+let no=0;
+$('#tasklist').innerHTML=T.map((c,i)=>`<details${i===0?' open':''}><summary>${c[0]}（${c[2].length}タスク）</summary><div class="scroll"><table class="stack"><thead><tr><th>No.</th><th>タスク</th><th>内容</th><th>区分</th></tr></thead><tbody>${c[2].map(t=>`<tr><td class="n">${String(++no).padStart(2,'0')}</td><td><b>${t[0]}</b></td><td>${t[1]}</td><td><span class="kb${t[2]?' op':''}">${t[2]?'運用':'初期'}</span></td></tr>`).join('')}</tbody></table></div></details>`).join('');
+
+const plans=[
+["フルプラン","すべてお任せいただく構成","58,000","〜",[1,1,1,1],"初期設定 込み","日々の更新のみ",1],
+["ホームページを外す","ホームページを自社で管理する場合","50,000","",[1,1,1,0],"初期設定 込み","＋ホームページの管理",0],
+["記事制作も外す","記事を自社で書く場合","40,000","",[1,1,0,0],"初期設定 込み","＋記事の企画・執筆",0],
+["Mappyのみ","分析や改善の判断も自社で行う場合","10,000","",[1,0,0,0],"初期設定 50,000円（おすすめ）","＋分析と次の施策の判断",0]];
+const sv=["基本ツール（Mappy）","コンサル","記事制作","ホームページ制作・保守"];
+$('#plans').innerHTML=plans.map(p=>`<div class="card plan${p[7]?' key':''}"><h3>${p[0]}</h3><p class="small">${p[1]}</p><p class="price">月額${p[2]}円<small>${p[3]}</small></p><p class="small">${p[5]}</p><ul>${sv.map((s,i)=>`<li class="${p[4][i]?'':'off'}"><span>${s}</span><span>${p[4][i]?'●':'―'}</span></li>`).join('')}</ul><p class="you">お客様側の作業：${p[6]}</p></div>`).join('');
+
+const ac=t=>`<span style="color:var(--ac)">${t}</span>`;
+const sc=[
+["GBPの初期設定",ac("弊社が実施"),"—","—"],
+["GBPの定期更新（投稿・写真・基本情報）",ac("初月の投稿4本"),"お客様がツールで更新","—"],
+["順位計測・インサイト分析",ac("開始時点の数値を記録"),ac("ツールで計測"),ac("コンサルで詳細分析")],
+["主要媒体への情報連携",ac("100媒体へ連携"),ac("ツールで連携"),"—"],
+["個別媒体への修正依頼・再チェック","—","お客様が実施","—"],
+["口コミの依頼・導線","—","お客様がアンケート・SMSで運用",ac("コンサルで導線を改善")],
+["口コミへの返信",ac("既存の口コミに返信"),"お客様がツールで返信","—"],
+["Webサイト",ac("表記・地図・FAQを確認"),"お客様が修正",ac("記事制作／ホームページ制作・保守")],
+["AI回答の確認",ac("現状診断"),"お客様が確認",ac("コンサルで露出を評価")],
+["レポート・改善提案",ac("初月完了時にレポート"),ac("ツールの自動レポート"),ac("コンサルで課題と次の施策を提示")]];
+$('#scopeb').innerHTML=sc.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('');
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});
+document.querySelectorAll('.fade').forEach(el=>io.observe(el));
+}
+</script>
+</body>
+</html>
