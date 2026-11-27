@@ -139,7 +139,7 @@ details .scroll{padding:0 12px 14px}
 /* pricing */
 .plans{display:grid;gap:14px;margin-top:28px}
 @media(min-width:640px){.plans{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(min-width:1000px){.plans{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(min-width:1000px){.plans{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .plan .price{font-size:28px;font-weight:700;margin-top:6px;white-space:nowrap}
 .plan .price small{font-size:14px;font-weight:400;color:var(--sub)}
 .plan ul{list-style:none;padding:0;margin:12px 0 0;font-size:14px}
@@ -153,6 +153,7 @@ details .scroll{padding:0 12px 14px}
 .item .p{font-weight:700;font-size:18px;border-top:1px dashed var(--line);padding-top:8px}
 .item .p small{font-size:13px;color:var(--sub);font-weight:400;margin-left:8px}
 .gbp{display:inline-flex;align-items:center;gap:6px;margin-top:14px;color:var(--ac);font-weight:700;text-decoration:none;border:1px solid var(--ac);border-radius:999px;padding:9px 18px;min-height:44px}.gbp::after{content:"↗"}.gbp:hover,.gbp:focus-visible{background:var(--acbg);outline:none}
+.linkcard{display:block;color:inherit;text-decoration:none;border-color:var(--ac)}.linkcard:hover,.linkcard:focus-visible{background:var(--acbg);outline:none}.linkcard .more{display:inline-block;margin-top:10px;color:var(--ac);font-weight:700;font-size:14px}.linkcard .more::after{content:" →"}
 footer{background:var(--band);color:#c4c6ca;padding:40px max(5vw,18px);font-size:14px}
 footer b{color:#fff}
 .fade{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s ease}
@@ -170,7 +171,7 @@ footer b{color:#fff}
       <span class="lab" style="color:#8cc6ec">MEO × AIO 対策のご提案</span>
       <h1>Googleマップで選ばれ、<br>AIにも紹介されるお店へ</h1>
       <p class="lead">Googleマップ対策（MEO）とAI検索への対策（AIO）を、4つのカテゴリ・26のタスクに整理しました。弊社が支援してきた店舗の実際の数字とあわせてご案内します。</p>
-      <div class="chips"><span class="chip">MEO 約13年の実績</span><span class="chip">1,838店舗の前年比</span><span class="chip">月額58,000円〜</span></div>
+      <div class="chips"><span class="chip">MEO 約13年の実績</span><span class="chip">1,838店舗の前年比</span><span class="chip">月額50,000円〜</span></div>
       <a class="cta" href="#price">料金プランを見る</a>
     </div>
     <div class="phone" aria-label="AIに質問したときの回答イメージ">
@@ -319,7 +320,7 @@ footer b{color:#fff}
 
 <section class="band alt" id="price"><div class="wrap fade">
   <span class="lab">料金</span>
-  <h2>フルプラン 月額58,000円〜。自社でできるものを外して下げられます</h2>
+  <h2>フルプラン 月額50,000円〜。自社でできるものを外して下げられます</h2>
   <p class="lead">すべてお任せいただく構成から、外したサービスの分だけ月額が下がります。外したサービスの作業は、お客様ご自身で行っていただく形になります。</p>
   <p class="note">プランの組み合わせや内容の変更は、ご契約後も状況に合わせて柔軟に対応します。お気軽にご相談ください。</p>
   <div class="plans" id="plans"></div>
@@ -328,7 +329,11 @@ footer b{color:#fff}
     <div class="card"><div class="item"><div><h3>基本ツール（Mappy 一元管理）</h3><p class="small" style="margin-top:4px">GBP管理・口コミ獲得支援（アンケート導線とSMSでのご案内）・100媒体への情報連携・サイト情報との整合・レポート自動化を、ひとつの画面で。</p></div><p class="p">月額10,000円<small>必須</small></p></div></div>
     <div class="card"><div class="item"><div><h3>コンサル</h3><p class="small" style="margin-top:4px">毎月の詳細分析、競合・商圏比較、AI検索の露出評価、優先施策の提案、口コミ獲得導線の改善、月1回のオンライン定例。</p></div><p class="p">月額30,000円<small>外せます</small></p></div></div>
     <div class="card"><div class="item"><div><h3>記事制作</h3><p class="small" style="margin-top:4px">1記事400文字以内の、簡潔なSEO・発信用コンテンツを毎月4本制作します。<br>（写真の追加や、商品・メニューの追加登録などがあれば、あわせて対応します）</p></div><p class="p">月額10,000円<small>外せます</small></p></div></div>
-    <div class="card"><div class="item"><div><h3>AI対応ホームページの制作・保守</h3><p class="small" style="margin-top:4px">AI対応のホームページを制作し、公開後の保守・管理まで対応します。</p></div><p class="p">月額8,000円<small>＋初期制作費50,000円</small></p></div></div>
+  </div>
+  <h3 style="margin-top:40px">別途ご相談いただけるサービス</h3>
+  <div class="grid g2" style="margin-top:16px">
+    <a class="card linkcard" href="hp.html"><h3>AI対応ホームページの制作・保守</h3><p class="small" style="margin-top:4px">AIに読み取られやすいホームページの制作から、公開後の保守まで対応します。内容と料金は別ページでご案内しています。</p><span class="more">ホームページ制作のご案内を見る</span></a>
+    <div class="card"><h3>LINE・Instagram・広告運用など</h3><p class="small" style="margin-top:4px">LINE公式アカウントの運用、Instagramの運用、Web広告の運用などは、ご状況を伺ったうえで個別にご提案・お見積りします。お気軽にご相談ください。</p></div>
   </div>
   <div class="card key" style="margin-top:20px">
     <h3>ツールのみのご契約には、初期設定（初回50,000円）をおすすめしています</h3>
@@ -433,11 +438,10 @@ let no=0;
 $('#tasklist').innerHTML=T.map((c,i)=>`<details${i===0?' open':''}><summary>${c[0]}（${c[2].length}タスク）</summary><div class="scroll"><table class="stack"><thead><tr><th>No.</th><th>タスク</th><th>内容</th><th>区分</th></tr></thead><tbody>${c[2].map(t=>`<tr><td class="n">${String(++no).padStart(2,'0')}</td><td><b>${t[0]}</b></td><td>${t[1]}</td><td><span class="kb${t[2]?' op':''}">${t[2]?'運用':'初期'}</span></td></tr>`).join('')}</tbody></table></div></details>`).join('');
 
 const plans=[
-["フルプラン","すべてお任せいただく構成","58,000","〜",[1,1,1,1],"初期設定 込み","日々の更新のみ",1],
-["ホームページを外す","ホームページを自社で管理する場合","50,000","",[1,1,1,0],"初期設定 込み","＋ホームページの管理",0],
-["記事制作も外す","記事を自社で書く場合","40,000","",[1,1,0,0],"初期設定 込み","＋記事の企画・執筆",0],
-["Mappyのみ","分析や改善の判断も自社で行う場合","10,000","",[1,0,0,0],"初期設定 50,000円（おすすめ）","＋分析と次の施策の判断",0]];
-const sv=["基本ツール（Mappy）","コンサル","記事制作","ホームページ制作・保守"];
+["フルプラン","すべてお任せいただく構成","50,000","〜",[1,1,1],"初期設定 込み","日々の更新のみ",1],
+["記事制作を外す","記事を自社で書く場合","40,000","",[1,1,0],"初期設定 込み","＋記事の企画・執筆",0],
+["Mappyのみ","分析や改善の判断も自社で行う場合","10,000","",[1,0,0],"初期設定 50,000円（おすすめ）","＋分析と次の施策の判断",0]];
+const sv=["基本ツール（Mappy）","コンサル","記事制作"];
 $('#plans').innerHTML=plans.map(p=>`<div class="card plan${p[7]?' key':''}"><h3>${p[0]}</h3><p class="small">${p[1]}</p><p class="price">月額${p[2]}円<small>${p[3]}</small></p><p class="small">${p[5]}</p><ul>${sv.map((s,i)=>`<li class="${p[4][i]?'':'off'}"><span>${s}</span><span>${p[4][i]?'●':'―'}</span></li>`).join('')}</ul><p class="you">お客様側の作業：${p[6]}</p></div>`).join('');
 
 const ac=t=>`<span style="color:var(--ac)">${t}</span>`;
@@ -449,7 +453,7 @@ const sc=[
 ["個別媒体への修正依頼・再チェック","—","お客様が実施","—"],
 ["口コミの依頼・導線","—","お客様がアンケート・SMSで運用",ac("コンサルで導線を改善")],
 ["口コミへの返信",ac("既存の口コミに返信"),"お客様がツールで返信","—"],
-["Webサイト",ac("表記・地図・FAQを確認"),"お客様が修正",ac("記事制作／ホームページ制作・保守")],
+["Webサイト",ac("表記・地図・FAQを確認"),"お客様が修正",ac("記事制作（ホームページ制作は別途ご案内）")],
 ["AI回答の確認",ac("現状診断"),"お客様が確認",ac("コンサルで露出を評価")],
 ["レポート・改善提案",ac("初月完了時にレポート"),ac("ツールの自動レポート"),ac("コンサルで課題と次の施策を提示")]];
 $('#scopeb').innerHTML=sc.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('');

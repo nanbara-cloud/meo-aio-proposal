@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI対応ホームページ制作のご案内</title>
+<style>
+/*
+VOICE: 落ち着いた別紙の案内。提案資料（AIO.html）と同じ調子。
+IDEA: 「GBPとホームページの情報がそろう」ことを1枚で見せる。
+PICTURE: ヒーローにスマホ画面のサイト見本と、GBPの情報カードが同じ内容で並ぶ図。
+COLOUR and TYPE: グレー基調＋ピンの青。メイリオ。
+LAYOUT: スマホ優先の1カラム、広い画面で2〜3列。
+*/
+:root{color-scheme:light dark;
+--bg:light-dark(#f1f1ef,#18191b);--panel:light-dark(#ffffff,#232427);--line:light-dark(#dcdcd8,#38393d);
+--ink:light-dark(#222326,#e9e9e6);--sub:light-dark(#5e6066,#a9abaf);--band:light-dark(#2c2e32,#0f1011);--bandink:#f1f1ef;
+--ac:light-dark(#1d6fa5,#74b6e3);--acbg:light-dark(#e6f0f7,#1c2a35);--soft:light-dark(#e7e7e4,#2d2e31)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 Meiryo,"メイリオ","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;overflow-x:clip}
+h1,h2,h3{line-height:1.3;text-wrap:balance;margin:0}
+h2{font-size:clamp(24px,5vw,32px)}h3{font-size:18px}
+p{margin:0}
+.wrap{max-width:1080px;margin:0 auto}
+.band{padding:clamp(48px,7vw,84px) max(5vw,18px)}
+.band.alt{background:var(--panel)}
+.lab{font-size:13px;color:var(--ac);font-weight:700;margin-bottom:10px;display:block}
+.lead{color:var(--sub);margin-top:12px;max-width:44em}
+.small{font-size:13px;color:var(--sub)}
+.grid{display:grid;gap:16px;margin-top:28px}
+@media(min-width:640px){.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+.alt .card{background:var(--bg)}
+.card h3{margin-bottom:6px}
+.note{margin-top:24px;padding:16px 18px;border-radius:12px;background:var(--acbg);font-size:15px}
+.top{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:8px max(4vw,12px)}
+.top a{display:inline-flex;align-items:center;min-height:40px;color:var(--sub);text-decoration:none;font-size:14px;padding:0 10px;border-radius:999px}
+.top a:hover,.top a:focus-visible{background:var(--soft);color:var(--ink);outline:none}
+.hero{background:var(--band);color:var(--bandink);padding:clamp(40px,7vw,80px) max(5vw,18px)}
+.hero .wrap{display:grid;gap:36px;align-items:center}
+@media(min-width:860px){.hero .wrap{grid-template-columns:1.1fr .9fr}}
+.hero h1{font-size:clamp(28px,6vw,46px);line-height:1.25}
+.hero .lead{color:#c4c6ca}
+.price{margin-top:22px;display:flex;flex-wrap:wrap;gap:10px}
+.price span{border:1px solid #55585e;border-radius:10px;padding:10px 16px;font-size:14px;color:#dcdde0}
+.price b{font-size:22px;color:#fff;margin-left:4px;white-space:nowrap}
+.pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:stretch}
+.mock{background:#f4f4f2;color:#222;border-radius:18px;padding:14px;box-shadow:0 24px 48px -20px rgba(0,0,0,.55)}
+.mock .bar{height:8px;width:40%;background:#cfd2d4;border-radius:4px;margin-bottom:10px}
+.mock .hd{height:54px;border-radius:10px;background:linear-gradient(135deg,#9aa3a8,#c9cdcf);margin-bottom:10px}
+.mock p{font-size:11px;line-height:1.6;margin-top:6px}
+.mock b{display:block;font-size:12px}
+.mock .tag{display:inline-block;font-size:10px;background:#2f86c2;color:#fff;border-radius:4px;padding:1px 6px;margin-bottom:6px}
+.mock .faq{margin-top:8px;border-top:1px dashed #cfd2d4;padding-top:6px;font-size:10px;color:#55575c}
+.same{grid-column:1/-1;text-align:center;font-size:13px;color:#c4c6ca}
+.step{display:grid;gap:12px;margin-top:28px;counter-reset:s}
+@media(min-width:720px){.step{grid-template-columns:repeat(5,minmax(0,1fr))}}
+.step .card{padding:16px}
+.step .card::before{counter-increment:s;content:counter(s);display:inline-flex;width:28px;height:28px;border-radius:50%;background:var(--ac);color:#fff;font-weight:700;font-size:14px;align-items:center;justify-content:center;margin-bottom:8px}
+ul.dot{margin:10px 0 0;padding-left:1.2em;font-size:14px}ul.dot li{margin:4px 0}
+.back{display:inline-flex;align-items:center;gap:6px;margin-top:24px;color:var(--ac);font-weight:700;text-decoration:none;border:1px solid var(--ac);border-radius:999px;padding:9px 18px;min-height:44px}
+.back:hover,.back:focus-visible{background:var(--acbg);outline:none}
+footer{background:var(--band);color:#c4c6ca;padding:36px max(5vw,18px);font-size:14px}
+footer b{color:#fff}
+.fade{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s ease}
+.fade.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.fade{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<div class="top"><a href="AIO.html">← MEO×AIO 対策のご提案に戻る</a></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <span class="lab" style="color:#8cc6ec">別途ご相談いただけるサービス</span>
+      <h1>AIに正しく読み取られる<br>ホームページを、制作から保守まで</h1>
+      <p class="lead">Googleビジネスプロフィールと同じ情報を、ホームページにもそろえて載せる。AIや検索エンジンが、お店の情報を確かめやすい状態をつくります。</p>
+      <div class="price"><span>月額<b>8,000円</b></span><span>初期制作費<b>50,000円</b></span></div>
+    </div>
+    <div class="pair" aria-label="Googleビジネスプロフィールとホームページで同じ情報を載せるイメージ">
+      <div class="mock"><span class="tag">ホームページ</span><div class="bar"></div><div class="hd"></div><b>店名・住所・電話番号</b><p>営業時間、メニュー、料金、アクセス</p><div class="faq">よくある質問　Q. 予約は必要ですか？</div></div>
+      <div class="mock"><span class="tag">Googleマップ</span><div class="bar"></div><div class="hd" style="background:linear-gradient(135deg,#b9c4bd,#dfe3e0)"></div><b>店名・住所・電話番号</b><p>営業時間、メニュー、料金、口コミ</p><div class="faq">★4.6　経路案内・電話</div></div>
+      <p class="same">どちらを見ても、同じ情報がそろっている状態に</p>
+    </div>
+  </div>
+</header>
+
+<section class="band"><div class="wrap fade">
+  <span class="lab">なぜホームページも大切か</span>
+  <h2>AIは、複数の情報源で同じ内容が確認できるお店を紹介しやすい傾向があります</h2>
+  <p class="lead">Googleビジネスプロフィール、外部の掲載媒体、口コミに加えて、ホームページはお店が自分で発信できる大切な情報源です。表記がそろい、知りたいことに答えている状態にしておくことで、AIの回答にも正しく反映されやすくなります。</p>
+</div></section>
+
+<section class="band alt"><div class="wrap fade">
+  <span class="lab">制作内容</span>
+  <h2>AI対応ホームページで行うこと</h2>
+  <div class="grid g3">
+    <div class="card"><h3>表記の統一</h3><p class="small">店名・住所・電話番号・営業時間を、Googleビジネスプロフィールと完全に一致させて掲載します。</p></div>
+    <div class="card"><h3>基本情報の構造化</h3><p class="small">AIや検索エンジンが機械的に読み取れる形式（構造化データ）で、基本情報を記述します。</p></div>
+    <div class="card"><h3>よくある質問の掲載</h3><p class="small">お客様がよく聞くことに、一問一答で答えるページを用意します。</p></div>
+    <div class="card"><h3>サービスごとの説明</h3><p class="small">「どんな人に向いているか」「利用するとどうなるか」を、サービスごとに分かりやすく書きます。</p></div>
+    <div class="card"><h3>Googleマップの埋め込み</h3><p class="small">アクセスのページに地図を入れ、経路案内につながる導線をつくります。</p></div>
+    <div class="card"><h3>スマホ表示を優先</h3><p class="small">お客様の多くが見るスマホで、読みやすく操作しやすい作りにします。</p></div>
+  </div>
+</div></section>
+
+<section class="band"><div class="wrap fade">
+  <span class="lab">料金</span>
+  <h2>月額8,000円＋初期制作費50,000円</h2>
+  <div class="grid g2">
+    <div class="card"><h3>初期制作費　50,000円</h3><p class="small">ヒアリングをもとに、ホームページを制作して公開します。</p></div>
+    <div class="card"><h3>月額　8,000円</h3><p class="small">公開後の保守・管理に対応します。営業時間やメニューの変更など、情報を最新の状態に保ちます。</p></div>
+  </div>
+  <p class="note">MEO×AIOのプランとは別のサービスとして、単独でもご依頼いただけます。ページ数や掲載内容、ドメインなどの詳細は、ご状況を伺ったうえでご案内します。<br><span class="small">写真はご提供いただいたものを使用します（撮影は含みません）。表示金額の税区分は別途ご案内します。</span></p>
+</div></section>
+
+<section class="band alt"><div class="wrap fade">
+  <span class="lab">進め方</span>
+  <h2>公開までの流れ</h2>
+  <div class="step">
+    <div class="card"><h3>ヒアリング</h3><p class="small">重点サービス、来てほしいお客様、載せたい内容を伺います。</p></div>
+    <div class="card"><h3>素材のご提供</h3><p class="small">写真、メニュー・料金、強みや実績をご用意いただきます。</p></div>
+    <div class="card"><h3>制作</h3><p class="small">GBPと表記をそろえ、AIが読み取りやすい形で作ります。</p></div>
+    <div class="card"><h3>ご確認・公開</h3><p class="small">内容をご確認いただき、修正のうえで公開します。</p></div>
+    <div class="card"><h3>保守</h3><p class="small">公開後も、情報の更新や管理を続けます。</p></div>
+  </div>
+  <a class="back" href="AIO.html">← MEO×AIO 対策のご提案に戻る</a>
+</div></section>
+
+<footer><div class="wrap">
+  <b>株式会社H2technology　MEO・AIO事業部</b><br>
+  お問い合わせ：r.nanbara@h2t.co.jp
+</div></footer>
+
+<script>
+{
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});
+document.querySelectorAll('.fade').forEach(el=>io.observe(el));
+}
+</script>
+</body>
+</html>
